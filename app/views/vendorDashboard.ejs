@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en" ng-app="angularTable">
+  <head>
+    <meta charset="utf-8">
+    <title><%= title %></title>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap/styles.css">
+    <style>
+    	.call_counter1{background-color: #BF00FF;color:#FFFFFF;}
+    	.call_counter2{background-color: #000000;color:#FFFFFF;}
+    	.selected_row{display:block !important;}
+        .no_selected_row{font-size:20px;display:none;}
+
+        .form-group {
+                    float: left;
+                    margin-bottom: 15px;
+                    padding-left: 2px;
+                    width: 45%;
+                }
+
+         .ui-autocomplete {
+                     position: absolute;
+                     z-index: 10000;
+                     cursor: default;
+                     padding: 0;
+                     margin-top: 2px;
+                     list-style: none;
+                     background-color: #ffffff;
+                     border: 1px solid #ccc;
+                     -webkit-border-radius: 5px;
+                        -moz-border-radius: 5px;
+                             border-radius: 5px;
+                     -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+                        -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+                             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+                 }
+                 .ui-autocomplete > li {
+                   padding: 3px 20px;
+                 }
+                 .ui-autocomplete > li.ui-state-focus {
+                   background-color: #DDD;
+                 }
+                 .ui-helper-hidden-accessible {
+                   display: none;
+                 }
+				 .formFields{
+					 margin: 0 10px;
+					 width: 20%;
+				 }
+				 .page-header{
+					 margin: 0;
+					 padding: 24px;
+				 }
+				 .page-header h2{
+					 margin: 0;
+				 }
+				 .leadTable td{
+					 width: auto;
+					 min-width: 20px;
+					 max-width: 100px;
+				 }
+				.paginator{
+					margin-left: auto;
+					margin-right: auto;
+					width: 308px;
+				}
+
+      </style>
+
+		<link rel="stylesheet" type="text/css" href="../css/jquery.datetimepicker.css"/ >
+
+</head>
+  <body style="font-size: 11px;">
+
+
+<input type="hidden" id="vendorid" name="vendorid" value="<%= vendorid %>">
+<input type="hidden" id="userid" name="userid" value="<%= vendoruserid %>">
+  <nav class="navbar navbar-default" style="height: 92px;">
+	<div class="container-fluid">
+	  <!-- Brand and toggle get grouped for better mobile display -->
+	  <div class="navbar-header">
+		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+		  <span class="sr-only">Toggle navigation</span>
+		  <span class="icon-bar"></span>
+		  <span class="icon-bar"></span>
+		  <span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="#">
+			<img src="https://c1.hiqcdn.com/discovery/resources/images/logo-holidayiq.png" alt="">
+		</a>
+	  </div>
+
+	  <!-- Collect the nav links, forms, and other content for toggling -->
+	  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+
+		<ul class="nav navbar-nav navbar-right" style="padding: 18px 10px;">
+		  <li class="dropdown" style="font-size: 12px;">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Welcome <strong><%= username %></strong> <span class="caret"></span></a>
+			<ul class="dropdown-menu">
+				<li><a href="/vendor/authenticate" target="_blank"> Gmail Sync</a></li>
+			  <li><a href="/partner/logout">Logout</a></li>
+			</ul>
+		  </li>
+		</ul>
+	  </div><!-- /.navbar-collapse -->
+	</div><!-- /.container-fluid -->
+  </nav>
+  <div class="" style="margin-top:0px;">
+    <div>
+			<div class="bs-component" ng-controller="listdata">
+            				<div style="width:99%;" >
+            				<!-- <div style="text-align: right;margin-top: 5px; font-size:12px;"><p>Welcome <strong><%= username %></strong>, <a href="/partner/logout" style="cursor:pointer">Logout</a></p></div> -->
+            					<div class="page-header">
+            						<h2 id="tables"><%= title %></h2>
+            					</div>
+            						<div  style="display:none">
+            							<label >Search</label>
+            							<input type="text" ng-model="search.$" class="form-control" placeholder="Search">
+            						</div>
+
+            						<div style="padding:10px 0;display:none">
+            							<ul class="nav nav-tabs">
+            							  <li  ng-click="search = active" ><a href="javascript:void(0);">All</a></li>
+            							  </ul>
+            						</div>
+
+            						<div style="padding:10px 0;">
+            							<div style="padding:5px 0;float:left;width:100%;">
+                                    	<div style="float:left;" class="form-group formFields">
+                                        <input type="text" ng-model="search.$" class="form-control" placeholder="Search">
+                                    	</div>
+                                    	<div style="float:left;" class="form-group formFields">
+                                        <input  id="from_date" class="form-control"  value="<%= fromdate %>"  type="text" placeholder="From Date" />
+                                    	</div>
+                                    	<div style="float:left;padding-left:5px;padding-right:5px; " class="form-group formFields">
+                                         <input  id="to_date" class="form-control" value="<%= todate %>"  type="text" placeholder="To Date" />
+										</div>
+										<div class="form-group formFields">
+            							<input type="button" class="btn btn-primary" value="search" name="seachresult" ng-click="searchResult()">
+            							</div>
+            							<input type="text" ng-model="search.source" class="form-control" placeholder="Source" style="display:none">
+            							<input type="text" ng-model="search.dname"  class="form-control" placeholder="Destination" style="display:none">
+            							<input type="text" ng-model="search.EmpEmailID"  class="form-control" placeholder="EmpEmailID" style="display:none">
+            							<input type="text" ng-model="search.channel"  class="form-control" placeholder="Channel" style="display:none">
+            						</div>
+
+								</div>
+
+							</div>
+							<div class="container" style="margin: 60px 0px 0px 0px; width: 100%;">
+								<table class="table table-striped table-hover" class="leadTable" style="border: 1px solid #333333">
+									<thead>
+										<tr>
+											<th ng-click="sort('leadid')" style="width:100px;">Lead Id / Lead Date</th>
+											<th ng-click="sort('name')"  style="width:100px;">Customer</th>
+											<th ng-click="sort('dname')"  style="width:50px;">Destination</th>
+											<th ng-click="sort('city')"  style="width:50px;">City</th>
+											<th style="width:200px;">Status</th>
+											<th style="width:150px;">Notes</th>
+											<th style="width:150px;">Holidayiq Notes</th>
+											<th style="width:100px;">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+									<tr style="cursor:pointer;" ng-click="selectrow(lead.leadid)" dir-paginate="lead in leaddata|orderBy:sortKey:reverse|filter:search|itemsPerPage:25|dateRangeFilter:date1:date2">
+											<td style=""> {{lead.leadid}} <br> {{lead.cdate}}</td>
+											<td style=""><span id ="{{lead.leadid}}_firstName" >{{lead.name}}</span> <span>&nbsp;</span> <span id ="{{lead.leadid}}_lastName" >{{lead.surname}}</span>
+																			<br><span id ="{{lead.leadid}}_customerEmail" >{{lead.email}}</span>
+																			<br><span id ="{{lead.leadid}}_phoneno" >{{lead.phone}}</span>
+																						</td>
+											<td style=""><span id ="{{lead.leadid}}_dname" >{{lead.dname}}</span></td>
+											<td style=""><span id ="{{lead.leadid}}_source" >{{lead.source}}</span></td>
+											<td id="{{lead.leadid}}_NewStatus" ng-switch="lead.lead_status" style="">
+																			<div><b id="{{lead.leadid}}_updatedEditStatus">{{lead.lead_status}}</b></div>
+																			<div id ="{{lead.leadid}}_editStatus" style="display:none">
+																			<div ng-switch-when="New" class="form-group" style="padding: 0px; width: 70%;">
+																				<select id="{{lead.leadid}}_NewStatus1" class="form-control" ng-change="changeleadstatus(lead.leadid,'new')" name="leadstatus" ng-model="leadstatusselected" data-newstatus="{{lead.leadid}}"  style="width: auto;" >
+																					<option value="" >Select</option>
+																					<option value="In Progress">In Progress</option>
+																					<option value="Closed">Closed</option>
+																					<option value="Converted">Converted</option>
+																				</select>
+																			   </div>
+																			   <div ng-switch-default style="width: 70%; padding: 0px;" class="form-group">
+																				<select id="{{lead.leadid}}_NewStatus2" class="form-control" style="width: auto;" name="leadstatus" ng-change="changeleadstatus(lead.leadid,'old')" ng-model="leadstatusselected" data-newstatus="{{lead.leadid}}"  style="height:25px;" >
+																				<option value="" >Select</option>
+																				<option value="In Progress">In Progress</option>
+																				<option value="Closed">Closed</option>
+																				<option value="Converted">Converted</option>
+																				</select>
+																			   </div>
+																			   <div><b id="{{lead.leadid}}_updatedEditReason">{{lead.reason}}</b></div></div>
+																			<div class="form-group" style="padding: 0px; width: 90%;">
+																				<select class="form-control" id="{{lead.leadid}}_status" name="leadstatus"  style="width: auto; display:none" >
+																				<option value="" >Select</option>
+																				<option value="Non contactable after 1 call" >Non contactable after 1 call</option>
+																				<option value="Non contactable after 2 calls">Non contactable after 2 calls</option>
+																				<option value="Non contactable after 3 calls">Non contactable after 3 calls</option>
+																				<option value="Non contactable after 4 calls">Non contactable after 4 calls</option>
+																				<option value="Non contactable after 5 calls">Non contactable after 5 calls</option>
+																				<option value="Did not fill the lead">Did not fill the lead</option>
+																				<option value="Calling for information only">Calling for information only</option>
+																				<option value="Already booked">Already booked</option>
+																				<option value="Trip cancelled / postponed">Trip cancelled / postponed</option>
+																				<option value="Interested in other destination">Interested in other destination</option>
+																				<option value="Budget mismatch">Budget mismatch</option>
+																				<option value="Booked somewhere else">Booked somewhere else</option>
+																				<option value="Other">Other</option>
+																			</select>
+																			</div>
+																			   </td>
+											<td id="{{lead.leadid}}_comment" style=""><div><span id="{{lead.leadid}}_UpdatedNote">{{lead.notes}}</span></div><textarea class="form-control" rows="4" cols="50" id="{{lead.leadid}}_Notes" style="display:none"></textarea></td>
+											<td>{{lead.hiqnotes}}</td>
+											<td id="{{lead.leadid}}_Action" style=""><div id ="{{lead.leadid}}_editButtonStatus"><a ng-click="showStatus(lead.leadid)" class="btn btn-success">Edit</a> <br></div><span id ="{{lead.leadid}}_actionStatus"  style="display:none">
+												<input type="button" name="submitleadstatus" ng-click="updateLeadStatus(lead.leadid,lead.lead_status)" class="leadstatus btn btn-success" value="Save">
+												<br><br>
+												<input type="button" class="btn btn-danger" name="resetStatus" ng-click="resetStatus(lead.leadid)" class="resetStatus" value="Cancel"></td>
+										</tr>
+										<tr ng-show="leaddata.length == 0"><td colspan="7" style="text-align: center"><b>No results found</b></td></tr>
+									</tbody>
+								</table>
+							</div>
+            				</div>
+            			</div>
+
+	</div>
+	<div class="paginator">
+		<dir-pagination-controls
+			max-size="15"
+			direction-links="true"
+			boundary-links="true" >
+		</dir-pagination-controls>
+	</div>
+		<!-- </div>
+		</div>
+    </div> -->
+	<script src="../js/lib/jquery/jquery.min.js?v=1"></script>
+		 <script src="../js/lib/jquery-1.12.0-ui.js?v=2"></script>
+		<script src="../js/lib/angular/angular.js?v=1"></script>
+		<script src="../js/lib/dirPagination.js?v=1"></script>
+		<script src="../js/app/app.js?v=1"></script>
+
+			 <script src="../js/lib/bootstrap/bootstrap.min.js"></script>
+
+         				<script src="../js/jquery.datetimepicker.full.min.js"></script>
+
+                    <script type="text/javascript">
+                    	$(document).ready(function() {
+					               $('#from_date').datetimepicker({
+                                  		format:'d/m/Y',
+                                  		timepicker:false
+                                   });
+                                   $('#to_date').datetimepicker({
+                                        format:'d/m/Y',
+                                        timepicker:false
+								   });
+
+                            });
+					</script>
+	</body>
+</html>

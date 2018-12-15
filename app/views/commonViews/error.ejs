@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include head %>
+</head>
+<style>
+    .errorContainer{
+        padding: 30px;
+    }
+</style>
+<body>
+    <div class="container errorContainer">
+        <div class="alert alert-danger">
+            No lead with hash id <%= data.leadHash %>
+        </div>
+    </div>
+</body>
+</html>

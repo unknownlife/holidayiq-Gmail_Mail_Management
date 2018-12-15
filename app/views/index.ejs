@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <% include head %>
+</head>
+<style>
+    .vendorDetails{
+        width: auto;
+        box-shadow: 1px 1px 8px #888888;
+        padding-top: 10px;
+    }
+    .scoreCardContainer{
+        padding: 0px 10px 10px 10px;
+    }
+    .scoreCardContainer .vendorDetails{
+        /* padding: 10px; */
+    }
+    .scoreContainer{
+        padding-top: 30px;
+        padding-left: 5px;
+    }
+    .rateTextContainer .rateText{
+        font-size: 1em;
+    }
+    .rating{
+        margin-left: 30px;
+    }
+
+    .rating span input{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        opacity: 0;
+        display: none;  
+    }
+    .rating span input:hover{
+        cursor: pointer;
+    }
+    .title{
+        padding-top: 10px; 
+    }
+    .rating span label{
+        display:inline-block;
+        width:40px;
+        height:40px;
+        padding: 6px;
+        text-align:center;
+        color:#FFF;
+        background:#ccc;
+        font-size:30px;
+        margin-right:10px;
+        line-height:30px;
+        /* border-color: red; */
+        border-radius: 0;
+        /* background: red; */
+    }
+    .rating span .score1{
+        background-color: #ee1212;
+    }
+    .rating span .score2{
+        background-color: #d36003;
+    }
+    .rating span .score3{
+        background-color: #f9a30d;
+    }
+    .rating span .score4{
+        background-color: #81cc15;
+    }
+    .rating span .score5{
+        background-color: #2c7e0c;
+    }
+    #div_ctrl{
+        padding: 13px;
+        margin: 0px 10px 0px 15px;
+    }
+    .changeButton{
+        border: 1px solid black;
+        border-radius: 10px;
+        padding: 5px;
+        font-size: 17px;
+        /* height: 30px; */
+    }
+    .changeButton:hover{
+    cursor: pointer;
+    }
+    .success{
+        padding: 10px 0px 0px 20px;
+    }
+    
+    @media(min-width: 991px){
+        .scoreContainer{
+            padding-left: 5px;
+        }
+    }
+</style>
+<body>
+    <div class="container">
+        <div class="scoreContainer">
+
+            <!-- <p><%= data.result.vendor %></p> -->
+            <h4>Hello, <%= data.username %></h4>
+        </div>
+    </div>
+    <% if (data.testMail === data.email){%>
+        <div class="container rateTextContainer">
+          <p class="rateText">How would you like to rate your vendors?</p>
+        </div>
+       <% include data %>
+    <% } else if(data.day !== 4 && data.day !==2) { %>    
+        <div class="container">
+          <div class="alert alert-danger">
+            <%= data.message %>
+          </div>
+        </div>
+    <% } else { %>
+        <div class="container rateTextContainer">
+          <p class="rateText">How would you like to rate your vendors?</p>
+        </div>
+        <% include data %>  
+    <% } %>  
+    <script>
+
+       $(document).ready(function(){
+            var vendorid;
+            var userRating;
+            var radioName;
+            var $radio;
+            var $checked;
+
+            $(":radio").click(function(){
+                userRating = this.value;
+                vendorid = $(this).attr("data-vid");
+                vendorname = $(this).attr("data-name");
+                radioName = $(this).attr("name");
+                $(":radio[name='"+radioName+"']").attr("disabled", true);  
+                $checked = $(this).closest('.rating').find('input[type="radio"]:checked');
+                $checked.closest('label').css('border', '2px solid black');
+                $radio = $(this).closest('.rating').find('input[type="radio"]:not(:checked)');
+                $radio.closest('label').css('opacity' , '0.2');
+                $('#changeButton'+vendorid).show();
+                console.log(userRating);
+                $('#button'+vendorid).attr('disabled', false);
+                $("#submit"+vendorid).attr('disabled', false);
+            });
+            
+            $('.addComment').click(function(){
+                var score_card = $(this).closest('.vendorDetails').find('.rating');
+                var x = score_card.find('input[type="radio"]:checked');
+                var vid = x.attr('data-vid');
+                $('.textContainer'+vid).show();
+                $(this).hide();
+            })
+        
+            
+            $('.changeButton').click(function (){
+                var radioButton = $(this).closest('.vendorDetails').find('.rating');
+                var x = radioButton.find('input[type="radio"]');
+                var radio = x.closest('.rating').find('input[type="radio"]:not(:checked)');
+                var check = x.closest('.rating').find('input[type="radio"]:checked');
+                radio.attr("disabled", false);
+                check.closest('label').css('border', 'none');
+                radio.closest('label').css('opacity', 1);
+                $(this).hide();
+            })
+           
+            $(".buttonSubmit").click(function(){
+                // console.log($(this).closest('.vendorDetails').find('.rating'));
+                var score_card = $(this).closest('.vendorDetails').find('.rating');
+                // console.log(score_card.find('input[type="radio"]:checked'));
+                var x = score_card.find('input[type="radio"]:checked');
+                var userRating = x.val();
+                var vid = x.attr('data-vid');
+                var vname = x.attr('data-name');
+                var comment = $("#comment"+vid).val();
+                $('#rating'+vid).hide();
+                $("#comment"+vid).hide();
+                $("#button"+vid).hide();
+                $(this).hide();
+                $('.successText'+vid).show();
+                console.log(userRating+"  "+vid+" "+vname+" "+comment);
+                submitRating(vid, userRating, vname, comment)
+            });
+
+
+            function submitRating(vid, rating, vname, comment){
+                $.ajax({
+                    type: "POST",
+                    url: "/rate-vendor/updateVendor",
+                    timeout: 2000,
+                    data: { vendorid: vid, rating: rating, userid: <%= data.result[0].salespersonid %>, vendorname: vname, comment: comment },
+                    success: function(data) {
+                        alert('Success!')
+                     },
+                    // error: function(jqXHR, textStatus, err) {
+                    //     show error message
+                    //     alert('text status '+textStatus+', err '+err)
+                    // }
+                });
+            }
+        });
+    </script>
+    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+</body>
+</html>

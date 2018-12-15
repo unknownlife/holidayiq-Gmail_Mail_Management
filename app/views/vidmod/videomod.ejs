@@ -1,0 +1,115 @@
+<html>
+  <head>
+	<title>
+	  Video Moderation Tool
+	</title>
+	<link rel="stylesheet" href="/stylesheets/style_vm.css?v=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	</head>
+  <body>    
+		<nav class="navbar navbar-default navbar-fixed-top bottom0" id="topNav">
+			<table id="filters" style="width:100%;">
+				<tr>
+					<td style="width:160px;">
+						<select name='type' class="form-control" id='type' onchange="getObjects()"> 
+							<option value="0">Select Type</option>
+							<% for(var i = 0; i < filters.types.length; i++){ %>
+							<option value='<%= filters.types[i]%>'><%= filters.types[i]%></option>
+							<% } %>
+						</select>
+					</td>
+					<td style="width:160px;">	
+						<select name="objectid" class="form-control" id='objselect'>
+							<option value="0">Select Object</option>
+						</select>
+					</td>
+					<td style="width:80px;">
+						<button id='apply' class="btn btn-primary" onClick="apply();" style="font-size: 12px;">Get</button>
+					</td>
+					<td style="width:80px;">
+						<button id='apply' class="btn btn-primary" onClick="regenerate();" style="font-size: 12px;">Regenerate</button>
+					</td>
+				</tr>
+			</table>
+		</nav>
+
+		<div class="mama-content-section">
+		Video<br>
+			<center>
+			<% if(videos.length > 0){ %>
+				<video width="320" height="240" controls>
+					<source src="<%=videos[0].url%>" type="video/mp4">
+					Your browser does not support the video tag.
+				</video>
+			<% } %>
+			</center>
+			<% 
+			if(images.length > 0){ %>
+			<br><br>
+			<table style="width:100%">
+				<h1 class="text-center">1. <%=  images[0].object_name %></h1>
+			<% temp = images[0].object_id;
+			   var id = 2;
+				for(var i = 0; i < images.length; i++){ 
+			%>
+
+			<% if((i > 1) && (images[i].object_id !=  images[i-1].object_id)) { %>
+			<tr><td colspan="4">
+				<hr>
+				<h1 class="text-center"><%= id++ %>. <%= images[i].object_name %></h1>				
+			</td></tr>
+			<% } %>
+			
+			<tr style="background:<% if(images[i].active == 1) { %>#E0F8D8<% } else { %>#FFD3E0<% } %>">
+				
+					<% if(images[i].type == 'VIDEO'){ %>
+						<td>
+							<video width="320" height="240" controls>
+								<source src="<%=images[i].url%>" type="video/mp4">
+								Your browser does not support the video tag.
+							</video>
+						</td>
+						<td style="text-align:center">
+							<input type="text" class="form-control" placeholder="Start Time" id="st<%=images[i].id%>" style="width:120px;">
+							<br>
+							<input type="text" class="form-control" placeholder="End Time" id="et<%=images[i].id%>" style="width:120px;">
+							<br>
+							<button id='s<%=images[i].id%>' class="btn btn-primary" onClick="submit(this.id);" style="font-size: 12px;">Submit</button>
+						</td>
+					<% } else { %>
+						<td>
+							<img src = '<%=images[i].url%>' style="width:400;">
+						</td>
+					<% } %>
+					<td>
+						<input type="text" class="form-control" placeholder="Replace with URL" id="repurl<%=images[i].id%>" style="width:200px;"><br>
+						<button id='rep<%=images[i].id%>' class="btn btn-primary" onClick="replace(this.id);" style="font-size: 12px;">Replace</button>
+					</td>
+					<td style="text-align:center">
+					<% if(images[i].active == 1){ %>
+					<button id='r<%=images[i].id%>' class="btn btn-lg btn-danger" onClick="remove(this.id);" style="font-size: 12px;">Remove</button>
+					<% } else { %>
+					<button id='r<%=images[i].id%>' class="btn btn-lg btn-danger" onClick="add(this.id);" style="font-size: 12px;">Add</button>
+					<% } %>
+					</td>
+				</tr>
+			
+			<% }  %>
+			</table>
+			<% } %>
+		</div>
+
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" rel="stylesheet"/>
+		<script type="text/javascript" src="/javascripts/vidmod.js?v=1"></script>
+		<br><br>
+
+		
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+		<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.6/jquery.lazy.min.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.6/jquery.lazy.plugins.min.js"></script>
+
+  </body>
+</html>

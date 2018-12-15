@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <% include ../commonViews/head %>
+   <style>
+       .headingContainer{
+           padding: 10px;
+       }
+       .headingContainer h1{
+           font-size: 18px;
+           margin: 10px 0 10px 0;
+       }
+   </style>
+</head>
+<body>
+    <% data.result.forEach(function (user){ %>
+        <div class="container headingContainer">
+                <h1>Mark lead with ID <%= user.leadid %>  as spam</h1>
+                <div class="spam-container">
+                    <div class="form-container">
+                        <div class="form-group">
+                            <select name="" id="selectReason" class="form-control" id="">
+                                <option value="" selected disabled hidden>Why do you want to mark your lead as spam ?</option>
+                                <option value="1">Reason 1</option>
+                                <option value="2">Reason 2</option>
+                                <option value="3">Reason 3</option>
+                                <option value="4">Reason 4</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="button" disabled placeholder="Add Comments" class="btn btn-success">
+                        </div>
+                        <div class="form-group">
+                            <textarea name="" id="" class="form-control" cols="30" rows="5"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input type="button" disabled placeholder="Optional Comments" class="btn btn-primary" value="Mark Spam">
+                        </div>
+                    </div>
+                </div>
+            </div>
+    <% }) %>
+    <script>
+        $(document).ready(function (){
+            var reasons;
+            var comments;
+            var leadhashid;
+            var leadid;
+            $()
+        })
+    </script>
+</body>
+</html>

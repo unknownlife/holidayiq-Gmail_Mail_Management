@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title>
+            Vendor Registration
+        </title>
+    </head>
+<body>
+<h1>Vendor Registration</h1>
+<form action="/vendor/generate" method="post" name="form2">
+	<table width="25%" border="0">
+		<tr> 
+			<td>Vendor Name</td>
+			<td><input type="text" name="name" id="name" /></td>
+		</tr>
+		<tr> 
+			<td>Vendor Email</td>
+			<td><input type="text" name="email"  /></td>
+		</tr>
+		<tr> 
+			<td>
+                <a href= "<%= data.url%>" target="_blank" >Generate Key</a>
+            </td>
+        </tr>
+        <tr>
+            <td>Vendor Key</td>
+            <td><input type="text" name="key"  /></td>
+        </tr>
+        <tr> 
+            <td></td>
+            <td><input type="submit" name="Submit" /></td>
+        </tr>
+	</table>
+</form>
+</body>
+</html>

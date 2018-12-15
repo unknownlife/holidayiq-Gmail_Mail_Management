@@ -1,0 +1,11 @@
+apps:
+  - script   : ./bin/www
+    name     : project_mama
+    instances: 4
+    exec_mode: cluster
+    log_type : json
+    env      :
+      NODE_ENV: development
+    env_production:
+      NODE_ENV: production
+      

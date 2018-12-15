@@ -1,0 +1,168 @@
+
+<html>
+        <head>
+            <title><%= title %></title>
+            <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous"> -->
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+            <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+            <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script> -->
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+        </head>
+        <body>
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <a class="navbar-brand" href="/vendor/pythonsign">
+                          <img src="https://c1.hiqcdn.com/discovery/resources/images/logo-holidayiq.png"  height="65px" alt="">
+                        </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                              </button>
+                            
+                              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav mr-auto">
+                                  <li class="nav-item active">
+                                    <a class="nav-link btn btn-outline-secondary" href="/vendor/pythonsign">Home <span class="sr-only">(current)</span></a>
+                                  </li>
+                                  &emsp;
+                                  <li class="nav-item active">
+                                        <a class="nav-link btn btn-outline-secondary" href="/vendor/generate/add">Add Employee<span class="sr-only">(current)</span></a>
+                                  </li>
+                                  &emsp;
+                                  <li class="nav-item active">
+                                        <a class="nav-link btn btn-outline-secondary" href="/partner/logout">Logout<span class="sr-only">(current)</span></a>
+                                  </li>
+                                </ul>
+                                <!-- <form class="form-inline my-2 my-lg-0" method="post" action="/vendor/generate/list/view">
+                                  <input class="form-control mr-sm-2" name="id" type="search" placeholder="Search Lead" aria-label="Search">
+                                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                                </form> -->
+                              </div>
+                            
+                      </nav>
+    
+            <br>
+            
+    
+            <!-- <br>
+            <center><div>
+                <b>Lead</b> <%= data[0].lead_id %>   |
+                <b>User Name </b><%= data[0].user_name%> |
+                <b>User Mail </b> <%= data[0].user_mail %>
+            </div></center> -->
+            <br>
+    <div class="container">
+        <div class="row">
+                <table class="table table-bordered table-condensed table-striped">
+    
+                        <thead>
+                            <tr>
+                                <th>Lead Id</th>
+                                <th>Customer Name</th>
+                                <th>Customer Mail</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                            <tr>
+                                <td><%= data[0].lead_id %></td>
+                                <td><%= data[0].user_name %></td>
+                                <td><%= data[0].user_mail %></td>
+                                <td><%= data[0].status %>
+                                    <p align="right"><div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                              Update Status
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <form action="/vendor/generate/list/update" method="POST">
+                                                    <input type="hidden" name="id" value="<%= data[0].lead_id %>" />   
+                                                <input type="submit" name="id2" class="btn dropdown-item" value='In Progress' />
+                                                <input type="submit" name="id2" class="btn dropdown-item" value='Closed' />
+    
+                                                <input type="submit" name="id2" class="btn dropdown-item" value='Converted' />
+                                            </form>
+                                            </div>
+                                    </div></p>
+                                </td>
+                            </tr>
+            
+                    </table>
+        </div>
+        </div>
+        <br>
+        
+        <br>
+        <div class="accordion container" id="accordionExample">
+            <% if (data) { %>
+                <% data.forEach(function(user){ %>
+                    <% uri=encodeURI(user.msg_body) %>
+                    <% info="secondary" %>
+                    <% minfo="vendor" %>
+                    <% if (user.recv_hiq == "1"){ %>
+                        <% info="info" %>
+                        <% minfo="HolidayIQ" %>
+                        <% } %>
+                    <% if (user.sent_user == "1"){ %>
+                        <% info="success" %>
+                        <% minfo="Customer" %>
+                        <% } %>
+                <div class="card border-<%= info %> mb-2">
+                  <div class="card-header">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#abc<%=user.msg_id%>" aria-controls="abc<%=user.msg_id%>" aria-expanded="true">
+                        <font size="4"><%= user.msg_subject %></font> 
+                      </button>
+                      <font size="3"><%= user.time %> &emsp; [<%= minfo %>]</font>
+                    </h5>
+                  </div>
+              
+                  <div id="abc<%=user.msg_id%>" class="collapse" data-parent="#accordionExample">
+                    <div class="card-body text-<%= info %> bg-transparent">
+                            <%- decodeURI(uri) %>
+                    </div>
+                  </div>
+                </div>
+                <% }) %>
+                <% } %>
+    
+              </div>
+        <!-- <div class="container">
+        <div class="row">        
+            <table class="table table-bordered table-condensed table-striped">
+    
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Message Subject</th>
+                        <th>Message Body</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <% if (data) { %>
+                <% data.forEach(function(user){ %>
+                    <% uri=encodeURI(user.msg_body) %>
+                    <% info="Sent from Vendor" %>
+                    <% if (user.recv_hiq == "1"){ %>
+                        <% info="Received from Hiq" %>
+                        <% } %>
+                    <% if (user.sent_user == "1"){ %>
+                        <% info="Received from user" %>
+                        <% } %>
+                    <tr>
+                        <td><%= info %></td>
+                        <td><%= user.msg_subject %></td>
+                        <td><%- decodeURI(uri) %></td>
+                        <td><%= user.msg_date %></td>
+                        <td><%= user.msg_time %></td>
+                    </tr>
+                <% }) %>
+                <% } %>
+    
+            </table>
+        </div>
+    </div>
+     -->
+    
+    </body>
+    </html>
+    

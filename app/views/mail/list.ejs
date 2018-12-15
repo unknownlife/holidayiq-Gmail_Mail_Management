@@ -1,0 +1,185 @@
+
+<html>
+	<head>
+        <title><%= title %></title>
+
+        <!-- <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">   
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css">
+        <script type="text/javascript" src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+
+        
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+        
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript"src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+        
+
+	</head>
+	<body >
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <a class="navbar-brand" href="/vendor/generate/list">
+                      <img src="https://c1.hiqcdn.com/discovery/resources/images/logo-holidayiq.png"  height="65px" alt="">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                          </button>
+                        
+                          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav mr-auto">
+                              <li class="nav-item active">
+                                <a class="nav-link btn btn-outline-secondary" href="/vendor/pythonsign">Home <span class="sr-only">(current)</span></a>
+                              </li>
+                              &emsp;
+                              <li class="nav-item active">
+                                    <a class="nav-link btn btn-outline-secondary" href="/vendor/generate/add">Add Employee<span class="sr-only">(current)</span></a>
+                              </li>
+                              &emsp;
+                              <li class="nav-item active">
+                                    <a class="nav-link btn btn-outline-secondary" href="/partner/logout">Logout<span class="sr-only">(current)</span></a>
+                              </li>
+                            </ul>
+                            <!-- <form class="form-inline my-2 my-lg-0">
+                              <input class="form-control mr-sm-2" name="id" type="search" onkeyup="myFunction()" id="myInput" placeholder="Search Lead" aria-label="Search">
+                              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                            </form> -->
+                          </div>
+                        
+                  </nav>
+
+
+        <br>
+		<!-- <center><div>
+                <a href="/vendor/generate/home">Home </a> | 
+                <a href="/vendor/generate/add">Add New Employee </a> | 
+                <a href="/vendor/generate/list">All Messages List</a>
+        </div></center>	 -->
+        
+
+        
+        <span align="center">
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Filter Status
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <form action="/vendor/generate/list" method="POST">
+                    <a class="dropdown-item" href="/vendor/pythonsign">All</a>
+                    <input type="submit" name="id" class="btn dropdown-item" value='New' />
+                    <input type="submit" name="id" class="btn dropdown-item" value='In Progress' />
+                    <input type="submit" name="id" class="btn dropdown-item" value='Closed' />
+                    <input type="submit" name="id" class="btn dropdown-item" value='Converted' />
+                </form>
+                </div>
+            </div>
+        </span>
+
+<div class="container">
+    <div class="row">
+            <!-- <table border="0" cellspacing="5" cellpadding="5">
+                    <tbody><tr>
+                        <td>Minimum age:</td>
+                        <td><input type="text" id="min" name="min"></td>
+                    </tr>
+                    <tr>
+                        <td>Maximum age:</td>
+                        <td><input type="text" id="max" name="max"></td>
+                    </tr>
+                </tbody></table> -->
+        <table class="table table-condensed table-striped " id="myTableNew" style="border: 1px solid #333333">
+
+            <thead>
+                <tr>
+                    <th>Lead ID</th>
+                    <th style="width:50px;">user mail</th>
+                    <th style="width:50px;">vendor mail</th>
+                    <th>Customer Name</th>
+                    <th>Customer Mail</th>
+                    <th>Last Subject</th>
+                    <th style="width:120px;">Last Active</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            
+            <!--
+                Using FOREACH LOOP for the users array
+                
+                myArray.forEach(function(el, index) {
+                    // el - current element, i - index
+                });
+            -->
+            <% if (data) { %>
+            <% data.forEach(function(user){ %>
+                <tr>
+                    <td><%= user.lead_id %></td>
+                    <td><%= user.usent %></td>
+                    <td><%= user.vsent %></td>
+                    <td><%= user.user_name %></td>
+                    <td><%= user.user_mail %></td>
+                    <td><%= user.ms %></td>
+                    <td><%= user.time %></td>
+                    <td><%= user.status %></td> 
+                    <td>
+                        <div style="float:left">	
+                            <!-- <a href='/vendor/generate/list/view/<%= user.lead_id %>'>View</a> &nbsp;					 -->
+                            <form method="post" action="/vendor/generate/list/view" style="float:right">
+                                <input type="hidden" name="id" value="<%= user.lead_id %>" />   
+                                <input type="submit" class="btn btn-sm btn-primary" value='Details' />
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            <% }) %>
+            <% } %>
+
+        </table>
+    </div>
+</div>
+
+<!-- <script>
+        function myFunction() {
+          var input, filter, table, tr, td, i;
+          input = document.getElementById("myInput");
+          filter = input.value.toUpperCase();
+          table = document.getElementById("myTable");
+          tr = table.getElementsByTagName("tr");
+          for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+              if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+              } else {
+                tr[i].style.display = "none";
+              }
+            }       
+          }
+        }
+    </script> -->
+
+<script>
+
+
+        $(document).ready(function(){
+            $('#myTableNew').dataTable({
+                "order": [[ 6, 'asc' ]]
+            });
+        });
+</script>  
+
+
+<br>
+<br>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<% data.result.forEach(function (user) { %>
+    <div class="scoreCardContainer">
+         <div class="vendorDetails">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-md-12 title">
+                        <h5 style="text-align: center;"><%= user.vendorname %></h5>                                    
+                    </div>
+                    <div class="col-xs-6 col-md-6 rating" id="rating<%= user.vendor %>">
+                        <span class="checked">
+                            <!-- <input type="radio" name="score<%= user.vendor %>" value="1" id="score1<%= user.vendor %>" data-name="<%= user.vendorname %>" data-vid="<%= user.vendor %>"> -->
+                            <label class="score1" for="score1<%= user.vendor %>">
+                            <input type="radio" name="score<%= user.vendor %>" value="1" id="score1<%= user.vendor %>" data-name="<%= user.vendorname %>" data-vid="<%= user.vendor %>">                                        
+                                1
+                            </label>
+                        </span>
+                        <span>
+                            <!-- <input type="radio" name="score<%= user.vendor %>" value="2" id="score2<%= user.vendor %>" data-name="<%= user.vendorname %>" data-vid="<%= user.vendor %>"> -->
+                            <label class="score2" for="score2<%= user.vendor %>">
+                            <input type="radio" name="score<%= user.vendor %>" value="2" id="score2<%= user.vendor %>" data-name="<%= user.vendorname %>" data-vid="<%= user.vendor %>">  
+                                2
+                            </label>                                        
+                        </span>
+                        <span>
+                            <label class="score3" for="score3<%= user.vendor %>">
+                                <input type="radio" name="score<%= user.vendor %>" value="3" id="score3<%= user.vendor %>" data-name="<%= user.vendorname %>" data-vid="<%= user.vendor %>">    
+                                3 
+                            </label>
+                        </span>
+                        <span>
+                            <label class="score4" for="score4<%= user.vendor %>">
+                                <input type="radio" name="score<%= user.vendor %>" value="4" id="score4<%= user.vendor %>" data-name="<%= user.vendorname %>" data-vid="<%= user.vendor %>">
+                                4
+                            </label>                                    
+                        </span>
+                        <span>
+                            <label class="score5" for="score5<%= user.vendor %>">
+                                <input type="radio" name="score<%= user.vendor %>" value="5" id="score5<%= user.vendor %>" data-name="<%= user.vendorname %>" data-vid="<%= user.vendor %>">
+                                5
+                            </label>
+                        </span>
+                        <span>
+                            <a id="changeButton<%= user.vendor %>" class="changeButton" style="display: none;">
+                              Change
+                            </a>
+                        </span>
+                    </div>
+                    <div class="successText<%= user.vendor %> success" style="display: none;">
+                        <div class="alert alert-success">
+                            Your response was submitted
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="row"> -->
+                    <div class="row CommentController" id="div_ctrl">
+                        <!-- <div class="form-group"> -->
+                            <input type="button" id="button<%= user.vendor %>" disabled class="btn btn-primary addComment" value="Add Comments">
+                            <div style="display: none; padding-bottom: 10px;" class="textContainer<%= user.vendor %>">
+                                <textarea class="form-control comment" name="comment" id="comment<%= user.vendor %>" cols="50" rows="4" placeholder="Add your Comments"></textarea>   
+                            </div>
+                            <input type="submit" style="margin-left: 5px;" disabled id="submit<%= user.vendor %>" class="buttonSubmit btn btn-success buttonSubmit<%= user.vendor %>" value="submit">
+                            <!-- </div> -->
+                        </div>
+                <!-- </div> -->
+            </div>
+        </div>
+    </div>
+<% })%>
